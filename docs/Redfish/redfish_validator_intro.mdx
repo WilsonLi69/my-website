@@ -1,0 +1,56 @@
+---
+id: getting_start_with_redfish_service_validator
+title: "Getting Start with Redfish-Service-Validator"
+tags: [Redfish, DMTF, BMC, Validation]
+---
+
+This tool validate the conformance a Redfish service implementation against the Redfish CSDL schema.
+
+The purpose of this article is to demonstrate how to use the Redifsh Service Validator to validate a Redfish service in a practical environment.
+For this article, OpenBMC is used as the target Redfish service and is runnign in QEMU environment.
+
+## Setting Up the Environment
+
+1. Clone Redfish Service Validator
+
+    ```bash
+    cd Redfish-Service-Validator
+    git clone https://github.com/DMTF/Redfish-Service-Validator.git
+    ```
+
+1. Install Required Packages
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+1. Modify Configureation File
+
+    The configuration file can be used to simplified repeated command-line executions.
+    Command-line arguments can be used to override the settings defined in the configuration file.
+
+    Configure the authentication and the address of the target redfish service.
+    ```ini title="config.ini"
+    [Authentication]
+    user = root
+    password = 0penBmc
+    authtype = Basic
+
+    [Connection]
+    rhost = https://localhost:2443
+    ```
+
+1. Validate the target service with the configuration
+
+    Run these from the root folder of Redfish-Service-Validator which will use the `config.ini` from current directory.
+
+    ```bash
+    python RedfishServiceValidator.py
+    ```
+
+## Examples
+
+```bash
+python RedfishServiceValidator.py --rhost https://Redfish_IP --logdir a_folder_to_keep_report
+```
+
