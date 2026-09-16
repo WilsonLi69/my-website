@@ -7,6 +7,7 @@ tags: [Redfish, DMTF, BMC, Validation]
 This tool validate the conformance a Redfish service implementation against the Redfish CSDL schema.
 
 The purpose of this article is to demonstrate how to use the Redifsh Service Validator to validate a Redfish service in a practical environment.
+
 For this article, OpenBMC is used as the target Redfish service and is runnign in QEMU environment.
 
 ## Setting Up the Environment
@@ -48,9 +49,38 @@ For this article, OpenBMC is used as the target Redfish service and is runnign i
     python RedfishServiceValidator.py
     ```
 
+1. Locate the generated report
+
+    After the validation is completed, a summary will be a displayed, including the number of PASS, WARN, and FAILED cases.
+    A detailed validation report will be generated.
+
+    By default, the report is saved in the logs directory.
+    You can change the output directory in the configuration file.
+
+    ```
+    +--------------+--------------+--------------+--------------+
+    |     PASS     |     WARN     |     FAIL     |  NOT TESTED  |
+    +--------------+--------------+--------------+--------------+
+    |     273      |      0       |      6       |     127      |
+    +--------------+--------------+--------------+--------------+
+
+
+    HTML Report:  logs/2026-09-15-172557/RedfishServiceValidatorReport_09_15_2026_172557.html
+    Excel Report: logs/2026-09-15-172557/RedfishServiceValidatorReport_09_15_2026_172557.xlsx
+    Debug Log:    logs/2026-09-15-172557/RedfishServiceValidatorDebug_09_15_2026_172557.log
+    ```
+
+1. View the Report
+    ![ Redfish Service Validator Report ]( ./img/redfish-service-validator-report.png )
+
 ## Examples
 
+Override the server address and log directory in config.ini
 ```bash
 python RedfishServiceValidator.py --rhost https://Redfish_IP --logdir a_folder_to_keep_report
 ```
 
+Using specified config file
+```bash
+python RedfishServiceValidator.py --config /path/to/target/conifg
+```
