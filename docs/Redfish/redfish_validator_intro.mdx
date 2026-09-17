@@ -1,7 +1,7 @@
 ---
 id: getting_start_with_redfish_service_validator
 title: "Getting Start with Redfish-Service-Validator"
-tags: [Redfish, DMTF, BMC, Validation]
+tags: [Redfish, DMTF, BMC, Test]
 ---
 
 This tool validate the conformance a Redfish service implementation against the Redfish CSDL schema.
@@ -84,3 +84,23 @@ Using specified config file
 ```bash
 python RedfishServiceValidator.py --config /path/to/target/conifg
 ```
+
+## How to Resolve Errors and Warnings in the Report
+
+Detailed explainations of what triggers the error/warning messages can be found at [official website](https://github.com/DMTF/Redfish-Service-Validator#test-results-types-of-errors-and-warnings).
+
+### Example: Unknown Property Error
+
+In this case, the report shows an Unknown Property Error on the Enabled property of the sensor.
+
+![odata type](./img/redfish-service-validator_example_odata-type.png)
+![unknown Property Error](./img/redfish-service-validator_example_unknown-property-error-message.png)
+
+Although the Enabled property is present in `./SchemaFiles/Sensor_v1.xml`, why does this error still occur?
+
+![Sensor Schema](./img/redfish-service-validator_example_sensor-schema.png)
+
+This is because the validator determines the schema definition based on the @odata.type declared in the JSON response.
+
+In this instance, the response specifies `@odata.type` as `Sensor.v1_0_2.Sensor`.
+Since the Enabled property was not introduced until `Sensor.v1_10_0`, the Redfish-Service-Validator evaluates the payload against v1.0.2, hence raising the error.
